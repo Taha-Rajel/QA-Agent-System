@@ -1,0 +1,8 @@
+venv/
+.env
+db/qa_history.db
+db/qa_history.json
+screenshots/runs/
+output/
+__pycache__/
+*.pyc

@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QA Agent System — Autonomous Website Testing</title>
+  <meta name="description"
+    content="AI-powered autonomous website QA system. Crawl links, detect UI regressions, test forms and auth flows, and generate comprehensive compliance reports in seconds.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css?v=20260608-ui-fixes">
+</head>
+
+<body>
+  <div class="app-shell" data-view="landing">
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  LANDING PAGE                                              -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <header class="topbar" id="topbar">
+      <a class="brand" href="#" data-action="landing" aria-label="QA Agent System home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22">
+            <path d="M4 6.5h16v11H4z" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="m8 10 3 2-3 2M13 14h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </span>
+        <span>QA Agent System</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#dashboard" class="active">Dashboard</a>
+        <a href="#features">Features</a>
+        <a href="#reports">Reports</a>
+      </nav>
+      <div class="topbar-actions">
+        <button class="icon-button theme-toggle" type="button" id="themeToggle" aria-label="Toggle dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" style="display:none">
+            <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="primary-button" type="button" data-action="open-workspace" id="heroStartBtn">Start testing</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- ── HERO ── -->
+      <section class="hero-section hero-centered" id="dashboard">
+        <div class="hero-copy">
+          <p class="eyebrow">Autonomous QA cockpit</p>
+          <h1>Automated website QA, link testing &amp; issue reporting.</h1>
+          <p class="hero-text">
+            Deploy AI-powered agents to crawl your entire site, test navigation, detect UI regressions,
+            validate forms &amp; auth flows, and generate comprehensive compliance reports in seconds.
+          </p>
+          <div class="hero-actions">
+            <button class="primary-button large" type="button" data-action="open-workspace" id="ctaStartBtn">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path d="M5 3l14 9-14 9V3z" fill="currentColor" />
+              </svg>
+              Start testing
+            </button>
+            <a class="secondary-button large" href="#features" id="ctaDemoBtn">Learn more</a>
+          </div>
+        </div>
+
+        <!-- Dashboard preview — sits below the buttons -->
+        <div class="hero-visual" aria-label="QA dashboard preview">
+          <div class="hero-dash-preview">
+            <!-- URL bar -->
+            <div class="hdp-url-bar">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              <span>Enter website URL to test (e.g. https://example.com)</span>
+              <span class="hdp-test-btn">&#9658; Test</span>
+            </div>
+            <!-- Stat cards -->
+            <div class="hdp-stats">
+              <div class="hdp-stat">
+                <strong id="heroTotal" class="hdp-num">12,482</strong>
+                <span>Total tests</span>
+              </div>
+              <div class="hdp-stat hdp-stat-pass">
+                <strong id="heroBroken" class="hdp-num">42</strong>
+                <span>Passed</span>
+              </div>
+              <div class="hdp-stat hdp-stat-fail">
+                <strong id="heroIntegrity" class="hdp-num">98.2%</strong>
+                <span>Failed</span>
+              </div>
+              <div class="hdp-stat hdp-stat-rate">
+                <strong class="hdp-num">0%</strong>
+                <span>Pass rate</span>
+              </div>
+            </div>
+            <!-- Pass rate bar -->
+            <div class="hdp-card">
+              <div class="hdp-card-row">
+                <span class="hdp-card-title">Pass rate</span>
+                <span class="hdp-card-meta">Duration: --</span>
+              </div>
+              <div class="hdp-bar-track"><div class="hdp-bar-fill" style="width:0%"></div></div>
+              <p class="hdp-bar-note">0 / 0 tests passed</p>
+            </div>
+            <!-- Category + Top failures -->
+            <div class="hdp-two-col">
+              <div class="hdp-card">
+                <div class="hdp-card-row">
+                  <span class="hdp-card-title">Results by category</span>
+                  <span class="hdp-card-meta">Waiting for test</span>
+                </div>
+                <div class="hdp-cats">
+                  <div class="hdp-cat"><strong>0/0</strong><span>UI</span></div>
+                  <div class="hdp-cat"><strong>0/0</strong><span>Navigation</span></div>
+                  <div class="hdp-cat"><strong>0/0</strong><span>Forms</span></div>
+                  <div class="hdp-cat"><strong>0/0</strong><span>Auth</span></div>
+                </div>
+              </div>
+              <div class="hdp-card">
+                <div class="hdp-card-row">
+                  <span class="hdp-card-title">Top failures</span>
+                  <span class="hdp-card-meta">No run yet</span>
+                </div>
+                <p class="hdp-empty">No failures yet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ── FEATURES ── -->
+      <section class="feature-band" id="features">
+        <div class="feature-band-inner">
+          <div class="section-copy">
+            <h2>Systematic Feature Set</h2>
+            <p class="section-desc">Our enterprise-grade toolkit provides everything you need for mission-critical web
+              application testing.</p>
+          </div>
+          <div class="feature-list">
+            <article class="feature-card">
+              <span class="feature-icon link-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l2-2a5 5 0 0 0-7.07-7.07l-1.14 1.14" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-2 2a5 5 0 0 0 7.07 7.07l1.14-1.14" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </span>
+              <div>
+                <h3>Link Validation</h3>
+                <p>Global crawling of internal and external links with recursive deep-scanning logic.</p>
+              </div>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon eye-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor"
+                    stroke-width="2" />
+                  <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" />
+                </svg>
+              </span>
+              <div>
+                <h3>UI Issue Detection</h3>
+                <p>Pixel-perfect comparison engine detects layout shifts and color contrast violations across devices.
+                </p>
+              </div>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon check-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                  <path d="M9 11 12 14 22 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </span>
+              <div>
+                <h3>Automated Checks</h3>
+                <p>Schedule hourly, daily, or CI/CD triggered test runs for total automated coverage.</p>
+              </div>
+            </article>
+            <article class="feature-card">
+              <span class="feature-icon shield-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor"
+                    stroke-width="2" />
+                  <path d="m9 12 2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+              <div>
+                <h3>Auth &amp; Form Testing</h3>
+                <p>Login flows, protected routes, form submissions, and validation tested automatically.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── REPORTS ── -->
+      <section class="report-band" id="reports">
+        <div class="report-band-inner">
+          <div class="section-copy">
+            <h2>Real-time Reports</h2>
+            <p class="section-desc">Export detailed audit trails in industry-standard formats. Share progress with
+              stakeholders through interactive dashboards or automated PDF summaries that provide actionable insights.
+            </p>
+            <div class="report-actions">
+              <button class="report-format-btn" type="button">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor"
+                    stroke-width="2" />
+                  <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" />
+                </svg>
+                PDF Export
+              </button>
+              <button class="report-format-btn" type="button">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                JSON Feed
+              </button>
+            </div>
+          </div>
+          <div class="report-sheet">
+            <div class="sheet-head">
+              <strong>SUMMARY REPORT #882</strong>
+              <span>2024-05-24</span>
+            </div>
+            <div class="progress-section">
+              <div class="progress-label">
+                <span>Test Completion</span>
+                <span class="progress-pct">75%</span>
+              </div>
+              <div class="progress-bar"><span style="width: 75%"></span></div>
+            </div>
+            <div class="score-row">
+              <article class="score-card">
+                <span class="score-label">SECURITY STATUS</span>
+                <strong class="score-value good">A+</strong>
+              </article>
+              <article class="score-card">
+                <span class="score-label">SEO LINKS</span>
+                <strong class="score-value alert">Alert</strong>
+              </article>
+            </div>
+            <div class="report-lines"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  WORKSPACE (INTERNAL DASHBOARD)                            -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <section class="workspace" aria-label="Website testing dashboard">
+
+      <!-- ── SIDEBAR ── -->
+      <aside class="ws-sidebar" id="wsSidebar">
+        <div class="ws-sidebar-inner">
+
+          <div class="ws-site-info" id="wsSiteInfo">
+            <div class="ws-site-avatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <div class="ws-site-text">
+              <strong id="wsSiteName">No URL tested</strong>
+              <small id="wsLastRun">Run a test to begin</small>
+            </div>
+          </div>
+
+          <div class="ws-run-summary" id="wsRunSummary">
+            <span class="ws-pill ws-pill-pass" id="wsPillPassed"><svg viewBox="0 0 24 24" width="12" height="12"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="m8 12 3 3 5-5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg> <span id="wsPillPassedCount">0</span> passed</span>
+            <span class="ws-pill ws-pill-fail" id="wsPillFailed"><svg viewBox="0 0 24 24" width="12" height="12"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="m9 9 6 6M15 9l-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg> <span id="wsPillFailedCount">0</span> failed</span>
+            <span class="ws-pill ws-pill-total" id="wsPillTotal"><span id="wsPillTotalCount">0</span> total</span>
+          </div>
+
+          <nav class="ws-nav" aria-label="Workspace">
+            <p class="ws-nav-group-label">OVERVIEW</p>
+            <a href="#" class="ws-nav-item active" id="navDashboard" data-panel="dashboard">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="12" width="7" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3" y="16" width="7" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              Dashboard
+            </a>
+
+            <p class="ws-nav-group-label">TESTING</p>
+            <a href="#" class="ws-nav-item" id="navTestResults" data-panel="test-results">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 11l3 3L22 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Test results
+            </a>
+
+            <p class="ws-nav-group-label">ANALYSIS</p>
+            <a href="#" class="ws-nav-item" id="navFailureAnalysis" data-panel="failure-analysis">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="16" x2="12.01" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Failure analysis
+            </a>
+            <a href="#" class="ws-nav-item" id="navSolutions" data-panel="solutions">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 2a7 7 0 0 1 7 7c0 3.5-2.5 5.5-3 8H8c-.5-2.5-3-4.5-3-8a7 7 0 0 1 7-7z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 21h6M10 17h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Solutions
+            </a>
+
+            <p class="ws-nav-group-label">REPORTS</p>
+            <a href="#" class="ws-nav-item" id="navReports" data-panel="reports">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Reports
+            </a>
+          </nav>
+
+        </div>
+      </aside>
+
+      <!-- ── MAIN CONTENT ── -->
+      <div class="workspace-main">
+        <header class="workspace-topbar website-workspace-topbar">
+          <div class="ws-topbar-left">
+            <button class="ws-menu-toggle" type="button" id="wsMenuToggle" aria-label="Toggle menu">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <a class="brand" href="#" data-action="landing" aria-label="QA Agent System home">
+              <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path d="M4 6.5h16v11H4z" fill="none" stroke="currentColor" stroke-width="2" />
+                  <path d="m8 10 3 2-3 2M13 14h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span>AI QA Testing Agent</span>
+            </a>
+          </div>
+          <button class="ghost-button" type="button" data-action="landing" id="backBtn">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <path d="M19 12H5M12 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Back to home
+          </button>
+        </header>
+
+        <!-- ── PANELS ── -->
+        <div class="ws-panels">
+
+          <!-- ▶ DASHBOARD PANEL -->
+          <section class="ws-panel active" id="panelDashboard" aria-label="Dashboard">
+            <div class="ws-panel-inner">
+
+              <!-- Test input -->
+              <form class="ws-test-form" id="testForm" aria-label="Start a website test">
+                <div class="ws-test-form-fields">
+                  <div class="url-input-wrapper ws-url-input">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
+                      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z" fill="none" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                    <input id="targetUrl" name="url" type="url" placeholder="Enter website URL to test (e.g. https://example.com)" required autocomplete="url">
+                  </div>
+                  <button class="primary-button ws-run-btn" type="submit" id="runAgentsBtn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 3l14 9-14 9V3z" fill="currentColor"/></svg>
+                    <span>Test</span>
+                  </button>
+                </div>
+              </form>
+
+              <!-- Stat cards -->
+              <div class="ws-stat-row" aria-label="Run statistics">
+                <article class="ws-stat-card">
+                  <span class="ws-stat-num" id="statTotal">0</span>
+                  <span class="ws-stat-label">Total tests</span>
+                </article>
+                <article class="ws-stat-card ws-stat-pass">
+                  <span class="ws-stat-num" id="statPassed">0</span>
+                  <span class="ws-stat-label">Passed</span>
+                </article>
+                <article class="ws-stat-card ws-stat-fail">
+                  <span class="ws-stat-num" id="statFail">0</span>
+                  <span class="ws-stat-label">Failed</span>
+                </article>
+                <article class="ws-stat-card ws-stat-rate">
+                  <span class="ws-stat-num" id="statPassRate">0%</span>
+                  <span class="ws-stat-label">Pass rate</span>
+                </article>
+              </div>
+
+              <!-- Pass rate bar -->
+              <article class="ws-card">
+                <div class="ws-card-head">
+                  <h3>Pass rate</h3>
+                  <span id="runDuration" class="ws-card-meta">Duration: --</span>
+                </div>
+                <div class="ws-progress-track">
+                  <div class="ws-progress-fill" id="passRateBar" style="width:0%"></div>
+                </div>
+                <p class="ws-card-note" id="runProgressText">0 / 0 tests passed</p>
+              </article>
+
+              <!-- 2-col grid: categories + top failures -->
+              <div class="ws-two-col">
+                <article class="ws-card">
+                  <div class="ws-card-head">
+                    <h3>Results by category</h3>
+                    <span id="categoryStatus" class="ws-card-meta">Waiting for test</span>
+                  </div>
+                  <div class="ws-category-row" id="categoryGrid">
+                    <div class="ws-cat-item"><strong>0/0</strong><span>UI</span></div>
+                    <div class="ws-cat-item"><strong>0/0</strong><span>Navigation</span></div>
+                    <div class="ws-cat-item"><strong>0/0</strong><span>Forms</span></div>
+                    <div class="ws-cat-item"><strong>0/0</strong><span>Auth</span></div>
+                  </div>
+                </article>
+
+                <article class="ws-card">
+                  <div class="ws-card-head">
+                    <h3>Top failures</h3>
+                    <span id="runStatus" class="ws-card-meta">No run yet</span>
+                  </div>
+                  <div id="failureList" class="ws-failure-list">
+                    <p class="ws-empty">No failures yet.</p>
+                  </div>
+                </article>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- ▶ TEST RESULTS PANEL -->
+          <section class="ws-panel" id="panelTestResults" aria-label="Test results" hidden>
+            <div class="ws-panel-inner">
+              <article class="ws-card ws-card-flush">
+                <div class="ws-card-head ws-card-head-pad">
+                  <div>
+                    <h3>Test results</h3>
+                    <p class="ws-card-sub" id="testResultsSub">Run a test to see individual test case results.</p>
+                  </div>
+                  <div class="ws-head-pills">
+                    <span class="ws-pill ws-pill-pass" id="trPillPassed">0 passed</span>
+                    <span class="ws-pill ws-pill-fail" id="trPillFailed">0 failed</span>
+                    <span class="ws-pill ws-pill-total" id="trPillTotal">0 total</span>
+                  </div>
+                </div>
+                <div class="ws-results-table-wrap">
+                  <table class="ws-results-table" id="testResultsTable">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>TEST CASE</th>
+                        <th>CATEGORY</th>
+                        <th>STATUS</th>
+                        <th>DURATION</th>
+                      </tr>
+                    </thead>
+                    <tbody id="testResultsBody">
+                      <tr class="ws-empty-row"><td colspan="5"><p class="ws-empty">No test results yet. Run a test first.</p></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- ▶ FAILURE ANALYSIS PANEL -->
+          <section class="ws-panel" id="panelFailureAnalysis" aria-label="Failure analysis" hidden>
+            <div class="ws-panel-inner">
+              <article class="ws-card ws-card-flush">
+                <div class="ws-card-head ws-card-head-pad">
+                  <div>
+                    <h3>Failure analysis — AI root cause</h3>
+                    <p class="ws-card-sub">Detailed breakdown of each failed test case.</p>
+                  </div>
+                </div>
+                <div id="failureAnalysisList" class="ws-analysis-list">
+                  <p class="ws-empty ws-empty-pad">No failures to analyze. Run a test first.</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- ▶ SOLUTIONS PANEL -->
+          <section class="ws-panel" id="panelSolutions" aria-label="Solutions" hidden>
+            <div class="ws-panel-inner">
+              <article class="ws-card ws-card-flush">
+                <div class="ws-card-head ws-card-head-pad">
+                  <div>
+                    <h3>Recommended fixes</h3>
+                    <p class="ws-card-sub">AI-generated solutions for each failing test case.</p>
+                  </div>
+                </div>
+                <div id="solutionsList" class="ws-analysis-list">
+                  <p class="ws-empty ws-empty-pad">No solutions yet. Run a test first.</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- ▶ REPORTS PANEL -->
+          <section class="ws-panel" id="panelReports" aria-label="Reports" hidden>
+            <div class="ws-panel-inner">
+
+              <article class="ws-card">
+                <div class="ws-card-head">
+                  <h3>Generated reports</h3>
+                  <span class="ws-card-meta" id="reportGenDate">—</span>
+                </div>
+                <div id="reportFileList" class="ws-report-files">
+                  <p class="ws-empty">No reports generated yet.</p>
+                </div>
+              </article>
+
+              <article class="ws-card">
+                <div class="ws-card-head">
+                  <h3>Executive summary</h3>
+                </div>
+                <p id="execSummary" class="ws-exec-summary">Run a test to generate an executive summary of the results.</p>
+                <div id="execTags" class="ws-exec-tags"></div>
+              </article>
+
+            </div>
+          </section>
+
+        </div><!-- /.ws-panels -->
+      </div><!-- /.workspace-main -->
+    </section><!-- /.workspace -->
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  FOOTER                                                    -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <footer class="site-footer" id="team">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path d="M4 6.5h16v11H4z" fill="none" stroke="currentColor" stroke-width="2" />
+              <path d="m8 10 3 2-3 2M13 14h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </span>
+          <span>QA Agent System</span>
+        </div>
+        <div class="footer-copy">
+          <p>&copy; 2024 QA Agent System. All rights reserved. | Built by: Oussama Tarchi, Ali Zouine, Taha Rajel,
+            Abdessamad Lyamani</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/static/app.js?v=20260608-ui-fixes"></script>
+</body>
+
+</html>
